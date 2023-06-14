@@ -1,0 +1,61 @@
+Challenge 2 - Tabela Ouro
+
+Revendo o desafio anterior, foram criadas as tabelas bronze_netflix e prata_netflix, em que:
+Bronze: Dados Bruto contendo seu formato original
+Prata: Dado "higienizado" com algumas transformações visando leves correções/ melhorias.
+O Challenge 2 visa a criação de algumas tabelas Ouro. As tabelas Ouro tem como objetivo trazer dados mais focados em assuntos específicos, com o objetivo de fornecer insumos para áreas de negócio, de forma resumida.
+Estes dados podem ser sumarizados ou não, porém, ja prontos para consumos de relatórios, dashboards e afins.
+O DESAFIO:
+
+REGRA: TODAS AS TABELAS DEVEM SER PROVENIENTES DA TABELA prata_netflix
+DICA:  Utilizar Agrupamentos, Sumarizações e Ordenação quando necessario
+
+------------------------------------------------------------------------------------------------------------------------------------
+1 - criar tabela com quantidade de títulos lançados por ano, ordenando do ano com mais títulos para o ano com menos títulos.
+nome da tabela: ouro_netflix_relatorio_ano_lancamento
+colunas:
+  - ano_lancamento(release_year); DEVE SER DO TIPO INTEIRO
+  - qtd_titulos(contagem de titulos por cada categoria); DEVE SER DO TIPO INTEIRO
+Ordenação:
+  - ano_lancamento em ordem decrescente
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+2 - Criar tabela especifica contendo todas as colunas ja existentes da tabela prata, porém, somente com informações de TV Show
+nome da tabela: ouro_netflix_seriados
+Valores que podem ser criados como inteiro devem possuir essa tipagem no ato de criação da tabela
+colunas:
+  - todas as existentes na camada prata
+regra: type = "TV Show"
+ordenação:
+  - release_year, title
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+3 - Criar tabela especifica contendo todas as colunas ja existentes da tabela prata, porém, somente com informações de Filmes
+nome da tabela: ouro_netflix_filmes
+Valores que podem ser criados como inteiro devem possuir essa tipagem no ato de criação da tabela
+colunas:
+  - todas as existentes na camada prata
+regra: type = "Movie"
+ordenação:
+  - release_year, title
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+4 - Criar tabela com a quantidade de filmes por ano de lancamento, tipo, país e rating
+nome da tabela: ouro_netflix_relatorio_titulos
+colunas:
+  - ano_lancamento (coluna release_year); DEVE SER DO TIPO INTEIRO
+  - descricao_tipo (coluna type);
+  - nome_pais_origem (coluna country);
+  - categoria_classificacao_indicativa (coluna rating);
+  - qtd_titulos (contagem de filmes por cada categoria) DEVE SER DO TIPO INTEIRO
+ordenação:
+  - ano_lancamento (decrescente)
+  - descricao_tipo (crescente)
+  - nome_pais_origem (crescente)
+  - qtd_titulos (decrescente)
+
+
+

@@ -1,0 +1,150 @@
+/* 
+1 - criar tabela com quantidade de títulos lançados por ano, ordenando do ano com mais títulos para o ano com menos títulos.
+nome da tabela: ouro_netflix_relatorio_ano_lancamento
+colunas:
+  - ano_lancamento(release_year); DEVE SER DO TIPO INTEIRO
+  - qtd_titulos(contagem de titulos por cada categoria); DEVE SER DO TIPO INTEIRO
+Ordenação:
+  - ano_lancamento em ordem decrescente
+*/
+
+SELECT * FROM prata_netflix;
+
+/* 
+1 - criar tabela com quantidade de títulos lançados por ano, ordenando do ano com mais títulos para o ano com menos títulos.
+nome da tabela: ouro_netflix_relatorio_ano_lancamento
+colunas:
+  - ano_lancamento(release_year); DEVE SER DO TIPO INTEIRO
+  - qtd_titulos(contagem de titulos por cada categoria); DEVE SER DO TIPO INTEIRO
+Ordenação:
+  - ano_lancamento em ordem decrescente
+*/
+
+SELECT * FROM prata_netflix;
+
+CREATE TABLE ouro_netflix_relatorio_ano_lancamento(
+	ano_lancamento INT NOT NULL, 
+	qtd_titulos INT NOT NULL
+);
+
+INSERT INTO ouro_netflix_relatorio_ano_lancamento 
+SELECT
+	DISTINCT(release_year)::INTEGER,
+	COUNT(title)
+FROM prata_netflix
+GROUP BY release_year
+ORDER BY COUNT(title) DESC;
+
+SELECT * FROM ouro_netflix_relatorio_ano_lancamento;
+
+/*
+2 - Criar tabela especifica contendo todas as colunas ja existentes da tabela prata, porém, somente com informações de TV Show
+nome da tabela: ouro_netflix_seriados
+Valores que podem ser criados como inteiro devem possuir essa tipagem no ato de criação da tabela
+colunas:
+  - todas as existentes na camada prata
+regra: type = "TV Show"
+ordenação:
+  - release_year, title
+*/
+
+CREATE TABLE ouro_netflix_seriados(
+	show_id 	VARCHAR(5) NOT NULL PRIMARY KEY,
+	type 		VARCHAR(12) NOT NULL,
+	title		VARCHAR(104) NOT NULL,
+	director	VARCHAR(208),
+	desc_cast	VARCHAR(771),
+	country		VARCHAR(123),
+	date_added	VARCHAR(19),
+	release_year	VARCHAR(12) NOT NULL,
+	rating		VARCHAR(12),
+	duration	VARCHAR(12),
+	listed_in	VARCHAR(79) NOT NULL,
+	description	VARCHAR(120) NOT NULL		
+);
+
+INSERT INTO ouro_netflix_seriados(
+	SELECT * FROM prata_netflix
+	WHERE type = 'TV Show'
+	ORDER BY release_year, title
+);
+
+SELECT * FROM ouro_netflix_seriados;
+
+
+/*
+3 - Criar tabela especifica contendo todas as colunas ja existentes da tabela prata, porém, somente com informações de Filmes
+nome da tabela: ouro_netflix_filmes
+Valores que podem ser criados como inteiro devem possuir essa tipagem no ato de criação da tabela
+colunas:
+  - todas as existentes na camada prata
+regra: type = "Movie"
+ordenação:
+  - release_year, title
+*/
+
+CREATE TABLE ouro_netflix_filmes(
+	show_id 	VARCHAR(5) NOT NULL PRIMARY KEY,
+	type 		VARCHAR(12) NOT NULL,
+	title		VARCHAR(104) NOT NULL,
+	director	VARCHAR(208),
+	desc_cast	VARCHAR(771),
+	country		VARCHAR(123),
+	date_added	VARCHAR(19),
+	release_year	VARCHAR(12) NOT NULL,
+	rating		VARCHAR(12),
+	duration	VARCHAR(12),
+	listed_in	VARCHAR(79) NOT NULL,
+	description	VARCHAR(120) NOT NULL		
+);
+
+INSERT INTO ouro_netflix_filmes(
+	SELECT * FROM prata_netflix
+	WHERE type = 'Movie'
+	ORDER BY release_year, title
+);
+
+SELECT * FROM ouro_netflix_filmes;
+
+/*
+4 - Criar tabela com a quantidade de filmes por ano de lancamento, tipo, país e rating
+nome da tabela: ouro_netflix_relatorio_titulos
+colunas:
+  - ano_lancamento (coluna release_year); DEVE SER DO TIPO INTEIRO
+  - descricao_tipo (coluna type);
+  - nome_pais_origem (coluna country);
+  - categoria_classificacao_indicativa (coluna rating);
+  - qtd_titulos (contagem de filmes por cada categoria) DEVE SER DO TIPO INTEIRO
+ordenação:
+  - ano_lancamento (decrescente)
+  - descricao_tipo (crescente)
+  - nome_pais_origem (crescente)
+  - qtd_titulos (decrescente)
+*/
+
+CREATE TABLE ouro_netflix_relatorio_titulos(
+	ano_lancamento 		INT NOT NULL, 
+	descricao_tipo 		VARCHAR(12) NOT NULL,
+	nome_pais_origem 	VARCHAR(123), 
+	categoria_classificacao_indicativa VARCHAR(12),
+	qtd_titulos 		INT NOT NULL
+);
+
+SELECT * FROM ouro_netflix_relatorio_titulos;
+
+INSERT INTO ouro_netflix_relatorio_titulos 
+SELECT
+	release_year::INTEGER,
+	type,
+	country,
+	rating,
+	COUNT(title)
+FROM prata_netflix
+GROUP BY release_year, type, country, rating
+ORDER BY 	release_year DESC, 
+			type ASC, 
+			country ASC,
+			COUNT(title) DESC;
+
+SELECT * FROM ouro_netflix_relatorio_titulos;
+
